@@ -6,10 +6,10 @@ import { AnimatePresence } from 'framer-motion'
 
 const App = () => {
     return (
-        <AnimatePresence>
-            <div className=' w-screen h-auto flex flex-col'>
+        <AnimatePresence exitBeforeEnter>
+            <div className=' w-screen h-auto flex flex-col bg-gray-100'>
                 <Header />
-                <section className='bg-gray-100' >
+                <section className=' md:mt-20 mt-16 py-4 px-4' >
                     <Routes>
                         <Route path='/*' element={<MainContainer />} />
                         <Route path='/createItem' element={<CreateContainer />} />

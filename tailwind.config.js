@@ -31,7 +31,9 @@ module.exports = {
         370: "370px",
         420: "420px",
         510: "510px",
+        555: "555px",
         600: "600px",
+        650: "656px",
         685: "685px",
         800: "800px",
         "90vh": "90vh",
@@ -50,6 +52,7 @@ module.exports = {
         cartBg: "#282a2c",
         cartItem: "#2e3033",
         cartTotal: "#343739",
+        cardOverlay: "#ebe9e9ad"
       },
       screens: {
         sm: "640px",
