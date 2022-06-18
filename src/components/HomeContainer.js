@@ -33,15 +33,17 @@ const HomeContainer = () => {
 
 
             <div className='flex flex-1 ml-auto w-full h-auto relative'>
-                <img src={heroBg} className='ml-auto h-outo w-full lg:w-auto lg:h-555' />
-                <div className='flex flex-wrap gap-2 items-center justify-center w-full h-full absolute px-3 py-4 top-0 right-0 '>
+                <img src={heroBg} className='ml-auto h-full w-full lg:w-300 md:w-300 lg:h-555' />
+                <div className='flex flex-wrap  gap-2 items-center justify-center w-full h-full absolute px-[58px] xl:px-32 lg:px-5  py-4 top-0 right-0 '>
                     {heroData && heroData.map(n => (
 
-                        <div key={n.id} className='bg-cardOverlay rounded-3xl w-40 md:w-190 flext flex-col md:min-w-[190px]'>
-                            <img className='w-40 -mt-20' src={n.imageSrc} />
-                            <p className='font-semibold text-lg text-gray-700 text-center'>{n.name}</p>
-                            <p className='text-center text-sm  py-3 text-gray-500'>{n.decp}</p>
-                            <p className='font-semibold text-center text-sm  text-gray-700 mb-3'><span className='text-red-500'>$</span>{n.price}</p>
+                        <div key={n.id} className='bg-cardOverlay rounded-3xl lg:w-40 w-32  lg:w-190 flext flex-col '>
+
+                            <img className='lg:w-40 lg:-mt-20 text-center' src={n.imageSrc} />
+
+                            <p className='text-sm font-semibold md:text-lg text-gray-700 text-center'>{n.name}</p>
+                            <p className='text-center text-sm md:py-3 text-gray-500'>{n.decp}</p>
+                            <p className='font-semibold text-center text-sm  text-gray-700 md:mb-3'><span className='text-red-500'>$</span>{n.price}</p>
                         </div>
 
                     ))}

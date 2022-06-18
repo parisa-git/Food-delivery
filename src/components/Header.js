@@ -50,7 +50,7 @@ const Header = () => {
 
 
     return (
-        <header className='fixed w-screen z-50  md:p-5 md:px-16 p-3 px-4'>
+        <header className='fixed w-screen z-50  md:p-5 md:px-16 p-3 px-4 bg-gray-100'>
 
             {/* Desktop */}
             <div className='hidden md:flex w-full h-full items-center  justify-between'>
@@ -92,7 +92,7 @@ const Header = () => {
                             className='absolute top-14 right-4 bg-gray-50 flex flex-col w-40 shadow-xl'>
                             {user && user.email === 'mbkparisa@gmail.com' &&
                                 <Link to='/createItem'>
-                                    <p className='text-neutral-500 hover:bg-gray-200  flex gap-3 items-center px-4 py-2 text-textBase cursor-pointer'>
+                                    <p onClick={() => { setIsMenu(false) }} className='text-neutral-500 hover:bg-gray-200  flex gap-3 items-center px-4 py-2 text-textBase cursor-pointer'>
                                         New Item
                                         <MdAdd />
                                     </p>
@@ -102,6 +102,7 @@ const Header = () => {
                             <p
                                 className='text-neutral-500 hover:bg-gray-200 flex gap-3 items-center px-4 py-2 text-textBase cursor-pointer'
                                 onClick={logout}
+                                
                             >
                                 Logout
                                 <MdLogout />
