@@ -8,6 +8,9 @@ import { MdFastfood, MdCloudUpload, MdDelete, MdAttachMoney, MdFoodBank } from '
 
 import { categories } from '../utils/data'
 import Loader from './Loader';
+import { getAllFoodItems, saveItem } from '../utils/firebaseFunctions';
+import { useStateValue } from '../context/StateProvider';
+import { actionType } from '../context/reducer';
 
 const CreateContainer = () => {
     const [title, setTitle] = useState('');
@@ -20,7 +23,9 @@ const CreateContainer = () => {
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const uploadImage = (e) => {
+    const [{ foodItems }, dispatch] = useStateValue();
+
+    const uploadImageHandler = (e) => {
         setIsLoading(true);
         const imageFile = e.target.files[0];
         console.log(imageFile);
@@ -33,7 +38,7 @@ const CreateContainer = () => {
             (error) => {
                 console.log(error);
                 setFields(true);
-                setMsg('Error Wile Uploading: Try Again');
+                setMsg('Error While Uploading: Try Again');
                 setAlertStatus('danger');
                 setTimeout(() => {
                     setFields(false);
@@ -54,7 +59,7 @@ const CreateContainer = () => {
             })
     }
 
-    const deleteImage = () => {
+    const deleteImageHandler = () => {
         setIsLoading(true);
         const deleteRef = ref(storage, imageAsset);
         deleteObject(deleteRef).then(() => {
@@ -63,20 +68,83 @@ const CreateContainer = () => {
             setFields(true);
             setMsg('Image Deleted Successfully');
             setAlertStatus('success');
-            setTimeout(()=>{
+            setTimeout(() => {
                 setFields(false);
-            },4000)
+            }, 4000)
         })
 
     }
-    const saveDetails = () => {
+    const saveDetailsHandler = () => {
 
-    }
+        try {
+            if ((!title || !imageAsset || !price || !calories)) {
+                setFields(true);
+                setMsg('Required feilds cannot be empty!');
+                setAlertStatus('danger');
+                setTimeout(() => {
+                    setFields(false);
+                    setIsLoading(false);
+                }, 4000)
+            } else {
+                const data = {
+                    id: Date.now(),
+                    title: title,
+                    imageURL: imageAsset,
+                    calories: calories,
+                    price: price,
+                    calories: calories,
+                    qty: 1
+                };
+                saveItem(data);
+                setIsLoading(false);
+                setFields(true);
+                setMsg('Data Uploaded successfully');
+                setAlertStatus('success');
+                clearData();
+                setTimeout(() => {
+                    setFields(false);
+                }, 4000)
+
+            }
+
+        } catch {
+            setFields(true);
+            setMsg('Error While Uploading: Try Again');
+            setAlertStatus('danger');
+            setTimeout(() => {
+                setFields(false);
+                setIsLoading(false);
+            }, 4000)
+        };
+
+        fetchData();
+    };
+
+
+    const clearData = () => {
+        setTitle('');
+        setImageAsset(null);
+        setCategory('Select Category');
+        setCalories('');
+        setPrice('')
+
+    };
+
+
+    const fetchData = async () => {
+        await getAllFoodItems().then(data => {
+            console.log(data);
+            dispatch({
+                type: actionType.SET_FOOD_ITEMS,
+                foodItems: data
+            })
+        })
+    };
 
     return (
 
         <div className='w-full flex justify-center items-center min-h-screen '>
-            <di className='border border-slate-200 rounded-lg w-[90%] md:w-[75%] p-4 gap-3 flex flex-col justify-center items-center'>
+            <di className='border border-slate-200 rounded-lg w-[80%] md:w-[60%] p-4 gap-3 flex flex-col justify-center items-center'>
                 {
                     fields &&
                     <motion.p
@@ -132,7 +200,7 @@ const CreateContainer = () => {
                                     type='file'
                                     accept='img/*'
                                     name='uploadimage'
-                                    onChange={uploadImage}
+                                    onChange={uploadImageHandler}
                                     className='w-0 h-0'
                                 />
                             </label>
@@ -143,7 +211,7 @@ const CreateContainer = () => {
                                     <button
                                         type='button'
                                         className='absolute bottom-3 right-3 p-3 bg-red-600 text-xl rounded-full hover:shadow-md duration-500 transition-all ease-in-out'
-                                        onClick={deleteImage}
+                                        onClick={deleteImageHandler}
                                     >
                                         <MdDelete className='text-white' />
                                     </button>
@@ -157,7 +225,7 @@ const CreateContainer = () => {
                         type='text'
                         required
                         value={calories}
-                        placeholder='Give me a title..'
+                        placeholder='Calories'
                         onChange={(e) => setCalories(e.target.value)}
                         className='w-full h-full bg-transparent border-none outline-none placeholder:text-gray-400 text-gray-600 '
                     />
@@ -168,7 +236,7 @@ const CreateContainer = () => {
                         type='text'
                         required
                         value={price}
-                        placeholder='Give me a title..'
+                        placeholder='Price'
                         onChange={(e) => setPrice(e.target.value)}
                         className='w-full h-full bg-transparent border-none outline-none placeholder:text-gray-400 text-gray-600 '
                     />
@@ -176,7 +244,7 @@ const CreateContainer = () => {
                 <div className='flex items-center w-full'>
                     <button
                         type='button'
-                        onClick={saveDetails}
+                        onClick={saveDetailsHandler}
                         className='border-none bg-green-500 text-white rounded-lg w-full px-10 py-2 ml-0 md:ml-auto md:w-auto'
                     >
                         Save
