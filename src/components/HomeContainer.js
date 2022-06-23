@@ -38,11 +38,11 @@ const HomeContainer = () => {
                 justify-center w-full h-full absolute  xl:px-[58px] lg:px-5 md:px-[58px] xs:px-0  py-4 top-0 right-0 '>
                     {heroData && heroData.map(n => (
 
-                        <div key={n.id} className='bg-cardOverlay rounded-3xl  w-32  lg:w-190 flext flex-col '>
+                        <div key={n.id} className='bg-cardOverlay rounded-3xl  w-32 md:w-28 lg:w-190 flext flex-col '>
 
                             <img className='lg:w-40 lg:-mt-20 text-center' src={n.imageSrc} />
 
-                            <p className='text-sm font-semibold md:text-lg text-gray-700 text-center'>{n.name}</p>
+                            <p className='text-base font-semibold md:text-lg text-gray-700 text-center'>{n.name}</p>
                             <p className='text-center text-sm md:py-3 text-gray-500'>{n.decp}</p>
                             <p className='font-semibold text-center text-sm  text-gray-700 md:mb-3'><span className='text-red-500'>$</span>{n.price}</p>
                         </div>

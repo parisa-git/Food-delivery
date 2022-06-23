@@ -90,7 +90,7 @@ const CreateContainer = () => {
                     id: Date.now(),
                     title: title,
                     imageURL: imageAsset,
-                    calories: calories,
+                    category: category,
                     price: price,
                     calories: calories,
                     qty: 1
@@ -126,7 +126,8 @@ const CreateContainer = () => {
         setImageAsset(null);
         setCategory('Select Category');
         setCalories('');
-        setPrice('')
+        setPrice('');
+        
 
     };
 
