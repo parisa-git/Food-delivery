@@ -21,9 +21,9 @@ const Header = () => {
 
     const [isMenu, setIsMenu] = useState(false);
 
-    const [{ user }, dispatch] = useStateValue();
+    const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
 
-    const login = async () => {
+    const loginHandler = async () => {
 
         if (!user) {
             const { user: { refreshToken, providerData } } = await signInWithPopup(firebaseAuth, provider);
@@ -37,7 +37,7 @@ const Header = () => {
         }
     };
 
-    const logout = () => {
+    const logoutHandler = () => {
 
         setIsMenu(false);
         localStorage.clear();
@@ -46,6 +46,13 @@ const Header = () => {
             user: null
         });
 
+    }
+
+    const cartShowHandler = () => {
+        dispatch({
+            type: actionType.SET_CART_SHOW,
+            cartShow: !cartShow
+        })
     }
 
 
@@ -70,18 +77,21 @@ const Header = () => {
                         <li className='text-base hover:text-headinColor text-textColor cursor-pointer duration-100 transition-all ease-in-out'>Menu</li>
                         <li className='text-base hover:text-headinColor text-textColor cursor-pointer duration-100 transition-all ease-in-out'>Service</li>
                     </motion.ul>
-                    <div className='flex items-center relative justify-center '>
+                    <div className='flex items-center relative justify-center ' onClick={cartShowHandler}>
                         <MdShoppingBasket className='text-textColor text-2xl cursor-pointer' />
-                        <div className='w-5 h-5 bg-red-600 rounded-full flex absolute -top-2 -right-2 items-center justify-center'>
-                            <p className='text-sm text-white font-semibold'>2</p>
-                        </div>
+                        {cartItems && cartItems.length > 0 &&
+                            <div className='w-5 h-5 bg-red-600 rounded-full flex absolute -top-2 -right-2 items-center justify-center'>
+                                <p className='text-sm text-white font-semibold'>{cartItems.length}</p>
+                            </div>
+                        }
+
                     </div>
                     <div className='flex items-center'>
                         <motion.img
                             whileTap={{ scale: 0.6 }}
                             className='w-8 drop-shadow cursor-pointer rounded-full'
                             src={user ? user.photoURL : Avatar}
-                            onClick={login}
+                            onClick={loginHandler}
                         />
                     </div>
                     {isMenu &&
@@ -101,8 +111,8 @@ const Header = () => {
 
                             <p
                                 className='text-neutral-500 hover:bg-gray-200 flex gap-3 items-center px-4 py-2 text-textBase cursor-pointer'
-                                onClick={logout}
-                                
+                                onClick={logoutHandler}
+
                             >
                                 Logout
                                 <MdLogout />
@@ -124,18 +134,20 @@ const Header = () => {
 
                 <div className='flex ml-auto gap-4 '>
 
-                    <div className='flex items-center relative justify-center '>
+                    <div className='flex items-center relative justify-center ' onClick={cartShowHandler}>
                         <MdShoppingBasket className='text-textColor text-2xl cursor-pointer' />
-                        <div className='w-5 h-5 bg-red-600 rounded-full flex absolute -top-2 -right-2 items-center justify-center'>
-                            <p className='text-sm text-white font-semibold'>2</p>
-                        </div>
+                        {cartItems && cartItems.length > 0 &&
+                            <div className='w-5 h-5 bg-red-600 rounded-full flex absolute -top-2 -right-2 items-center justify-center'>
+                                <p className='text-sm text-white font-semibold'>{cartItems.length}</p>
+                            </div>
+                        }
                     </div>
                     <div className='flex items-center'>
                         <motion.img
                             whileTap={{ scale: 0.6 }}
                             className='w-8 drop-shadow cursor-pointer rounded-full'
                             src={user ? user.photoURL : Avatar}
-                            onClick={login}
+                            onClick={loginHandler}
                         />
                     </div>
                     {isMenu &&
@@ -146,7 +158,7 @@ const Header = () => {
                             className='absolute top-14 right-4 bg-gray-50 flex flex-col w-40 shadow-xl'>
                             {user && user.email === 'mbkparisa@gmail.com' &&
                                 <Link to='/createItem'>
-                                    <p onClick={() => { setIsMenu(false) }}  className='text-neutral-500 hover:bg-gray-200  flex gap-3 items-center px-4 py-2 text-textBase cursor-pointer'>
+                                    <p onClick={() => { setIsMenu(false) }} className='text-neutral-500 hover:bg-gray-200  flex gap-3 items-center px-4 py-2 text-textBase cursor-pointer'>
                                         New Item
                                         <MdAdd />
                                     </p>
@@ -160,7 +172,7 @@ const Header = () => {
                             </ul>
                             <p
                                 className='text-neutral-500 bg-gray-200 hover:bg-gray-300 m-2 p-2 text-center ro unded-md shadow-md flex gap-3 items-center px-4 py-2 text-textBase cursor-pointer'
-                                onClick={logout}
+                                onClick={logoutHandler}
                             >
                                 Logout
                                 <MdLogout />

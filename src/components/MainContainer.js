@@ -5,27 +5,27 @@ import RowContainer from './RowContainer';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { motion } from 'framer-motion';
 import { useStateValue } from '../context/StateProvider';
+import CartContainer from './CartContainer';
 
 
 
 const MainContainer = () => {
 
-    const [{ foodItems }, dispatch] = useStateValue();
+    const [{ foodItems, cartShow }, dispatch] = useStateValue();
 
     const [scrollValue, setScrollValue] = useState(0);
 
 
     const handleClick = (way) => {
-        console.log('yess')
 
-        way === 'left' ? setScrollValue(scrollValue > 0 ? scrollValue - 200 : 0)
-            : setScrollValue(scrollValue < foodItems.length - 1 ? scrollValue + 200 : 0)
+        way == 'left' ? setScrollValue(scrollValue > 0 ? scrollValue - 200 : 0)
+            : setScrollValue(scrollValue < foodItems.length - 1 ? scrollValue + 200 : 0);
+
     };
 
     useEffect(() => {
 
-
-    }, [scrollValue]);
+    }, [scrollValue, cartShow]);
 
 
     return (
@@ -63,7 +63,11 @@ const MainContainer = () => {
                     data={foodItems}
                 />
             </section>
+
             <MenuContainer />
+
+
+            {cartShow && <CartContainer />}
         </div>
     )
 }
