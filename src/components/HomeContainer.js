@@ -33,12 +33,12 @@ const HomeContainer = () => {
 
 
             <div className='flex flex-1 ml-auto w-full h-auto relative'>
-                <img src={heroBg} className='ml-auto h-full w-full lg:w-300 md:w-300 lg:h-555' />
+                <img src={heroBg} className='ml-auto h-full w-full lg:w-[420px] md:w-[300px] lg:h-555' />
                 <div className='flex flex-wrap  gap-2 items-center 
-                justify-center w-full h-full absolute  xl:px-[58px] lg:px-5 md:px-[58px] xs:px-0  py-4 top-0 right-0 '>
+                justify-center w-full h-full absolute  xl:px-[58px] lg:px-5 md:px-[30px] xs:px-0  py-4 top-0 right-0 '>
                     {heroData && heroData.map(n => (
 
-                        <div key={n.id} className='bg-cardOverlay rounded-3xl  w-32 md:w-28 lg:w-190 flext flex-col '>
+                        <div key={n.id} className='bg-cardOverlay rounded-3xl  w-32 md:w-32 lg:w-190 flext flex-col '>
 
                             <img className='lg:w-40 lg:-mt-20 text-center' src={n.imageSrc} />
 
